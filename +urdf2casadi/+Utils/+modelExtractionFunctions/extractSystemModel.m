@@ -65,4 +65,17 @@ smds.rpy_base = rpy0;
 smds.baseLinkName = baseLinkName;
 %% Account for fixed joints
 smds = accountForFixedJoint(smds);
+
+
+%% Temporary fix
+%The parent array must start with 0 (the base link). For some URDFs, 
+% computeParentList returns the tree topology in reverse order (e.g., [1, 0...] 
+% instead of [0, 1...]).
+% FLip is temporary, will modify traversal in the future
+if smds.parent(1)~=0
+    warning('smd.parent flipped, double check result')
+    smds.parent=flip(smds.parent);
+end
+
+
 end
